@@ -39,14 +39,14 @@ export class Scene2 extends Phaser.Scene {
 
     this.anims.create({
       key: "ship2_anim",
-      frames: this.anims.generateFrameNumbers("ship"),
+      frames: this.anims.generateFrameNumbers("ship2"),
       frameRate: 20,
       repeat: -1,
     });
 
     this.anims.create({
       key: "ship3_anim",
-      frames: this.anims.generateFrameNumbers("ship"),
+      frames: this.anims.generateFrameNumbers("ship3"),
       frameRate: 20,
       repeat: -1,
     });
@@ -64,10 +64,10 @@ export class Scene2 extends Phaser.Scene {
     this.ship3.play("ship3_anim");
   }
   update() {
-    this.moveShip(this.ship, 3);
-    this.moveShip(this.ship2, 5);
-    this.moveShip(this.ship3, 7);
-    this.background.tilePositionY -= 2;
+    this.moveShip(this.ship1, 1);
+    this.moveShip(this.ship2, 2);
+    this.moveShip(this.ship3, 3);
+    this.background.tilePositionY -= 1;
   }
 
   moveShip(ship, speed) {
