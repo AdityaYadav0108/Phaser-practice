@@ -6,6 +6,7 @@ export class Beam extends Phaser.GameObjects.Sprite{
     let y = scene.player.y;
 
     super(scene, x, y, "beam");
+    this.scale = 2;
     scene.add.existing(this);
     scene.projectiles.add(this);
     this.play("shoot");

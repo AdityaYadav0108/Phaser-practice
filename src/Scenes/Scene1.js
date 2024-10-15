@@ -5,7 +5,7 @@ export class Scene1 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "../../assets/images/background.png");
+    this.load.image("background", "../../assets/exp/background.png");
     this.load.spritesheet("ship", "../../assets/spritesheets/ship.png", {
       frameWidth: 16,
       frameHeight: 16,
@@ -18,6 +18,31 @@ export class Scene1 extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
+    this.load.spritesheet("planet1", "../../assets/exp/planet_1.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
+    this.load.spritesheet("planet2", "../../assets/exp/planet_2.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
+    this.load.spritesheet("planet3", "../../assets/exp/planet_3.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
+    this.load.spritesheet("planet4", "../../assets/exp/planet_4.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
+    this.load.spritesheet("planet5", "../../assets/exp/planet_5.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
+    this.load.spritesheet("planet6", "../../assets/exp/planet_6.png", {
+      frameWidth: 48,
+      frameHeight: 48
+    });
+    
     this.load.spritesheet(
       "explosion",
       "../../assets/spritesheets/explosion.png",
@@ -54,7 +79,7 @@ export class Scene1 extends Phaser.Scene {
     this.load.audio("beamAudio", "../../assets/audio/beam.mp3");
     this.load.audio("explosionAudio", "../../assets/audio/explosion.mp3");
     this.load.audio("pickupAudio", "../../assets/audio/pickup.mp3");
-    console.log("audio loaded")
+    console.log("audio loaded");
   }
 
   create() {
@@ -118,7 +143,7 @@ export class Scene1 extends Phaser.Scene {
     this.anims.create({
       key: "shoot",
       frames: this.anims.generateFrameNumbers("beam"),
-      frameRate: 20,
+      frameRate: 30,
       repeat: -1,
     });
   }

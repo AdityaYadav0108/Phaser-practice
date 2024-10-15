@@ -16,29 +16,75 @@ export class Scene2 extends Phaser.Scene {
       config.height,
       "background"
     );
+    // this.background.scaleX = 2
     this.background.setOrigin(0, 0);
     this.ship1 = this.add.sprite(
       config.width / 2 - 50,
       config.height / 2,
       "ship"
     );
+    this.ship1.scale = 2;
+
     this.ship2 = this.add.sprite(config.width / 2, config.height / 2, "ship2");
+    this.ship2.scale = 2;
 
     this.ship3 = this.add.sprite(
       config.width / 2 + 50,
       config.width / 2,
       "ship3"
     );
+    this.ship3.scale = 2;
+
+    this.planet1 = this.add.sprite(
+      config.width / 2 + 50,
+      config.width / 2,
+      "planet1"
+    );
+
+    this.planet2 = this.add.sprite(
+      config.width / 2 + 50,
+      config.width / 2,
+      "planet1"
+    );
+
+    this.planet3 = this.add.sprite(
+      config.width / 2 + 50,
+      config.width / 2,
+      "planet1"
+    );
+
+    this.planet4 = this.add.sprite(
+      config.width / 2 + 50,
+      config.width / 2,
+      "planet1"
+    );
+
+    this.planet5 = this.add.sprite(
+      config.width / 2 + 50,
+      config.width / 2,
+      "planet1"
+    );
+
+    this.planet6 = this.add.sprite(
+      config.width / 2 + 50,
+      config.width / 2,
+      "planet6"
+    );
 
     this.beamSound = this.sound.add("beamAudio");
     this.explosionSound = this.sound.add("explosionAudio");
     this.pickupSound = this.sound.add("pickupAudio");
-    console.log(this.pickupSound)
+    console.log(this.pickupSound);
 
-    this.ships = this.physics.add.group();
-    this.ships.add(this.ship1);
-    this.ships.add(this.ship2);
-    this.ships.add(this.ship3);
+    this.enemies = this.physics.add.group();
+    this.enemies.add(this.ship1);
+    this.enemies.add(this.ship2);
+    this.enemies.add(this.ship3);
+    this.enemies.add(this.planet1);
+    this.enemies.add(this.planet2);
+    this.enemies.add(this.planet3);
+    this.enemies.add(this.planet4);
+    
 
     this.score = 0;
     this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:", 20);
@@ -68,6 +114,7 @@ export class Scene2 extends Phaser.Scene {
       "player"
     );
     this.player.setCollideWorldBounds(true);
+    this.player.scale = 2;
 
     this.player.play("thrust");
     this.ship1.play("ship1_anim");
@@ -101,14 +148,14 @@ export class Scene2 extends Phaser.Scene {
     );
     this.physics.add.overlap(
       this.player,
-      this.ships,
+      this.enemies,
       this.hurtPlayer,
       null,
       this
     );
     this.physics.add.overlap(
       this.projectiles,
-      this.ships,
+      this.enemies,
       this.killEnemy,
       null,
       this
@@ -116,9 +163,11 @@ export class Scene2 extends Phaser.Scene {
   }
 
   update() {
-    this.moveShip(this.ship1, 1);
-    this.moveShip(this.ship2, 2);
-    this.moveShip(this.ship3, 3);
+    this.moveEnemy(this.ship1, Math.random() * 5);
+    this.moveEnemy(this.ship2, Math.random() * 5);
+    this.moveEnemy(this.ship3, Math.random() * 5);
+    this.moveEnemy(this.planet1, Math.random() * 5);
+
     this.background.tilePositionY -= 1;
     this.movePlayer();
 
@@ -156,7 +205,7 @@ export class Scene2 extends Phaser.Scene {
     }
   }
 
-  moveShip(ship, speed) {
+  moveEnemy(ship, speed) {
     ship.y += speed;
     if (ship.y > config.height) {
       ship.y = 0;
@@ -184,7 +233,7 @@ export class Scene2 extends Phaser.Scene {
     if (player.alpha < 1) {
       return;
     }
-    
+
     let explosion = new Explosion(this, player.x, player.y);
     player.disableBody(true, true);
     this.time.addEvent({
@@ -216,13 +265,13 @@ export class Scene2 extends Phaser.Scene {
     this.tween = this.tweens.add({
       targets: this.player,
       y: config.height - 64,
-      ease: 'Power1',
+      ease: "Power1",
       duration: 1500,
       repeat: 0,
       onComplete: () => {
         this.player.alpha = 1;
       },
-      callbackScope: this
-    })
+      callbackScope: this,
+    });
   }
 }
