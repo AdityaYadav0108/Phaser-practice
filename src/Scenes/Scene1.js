@@ -44,8 +44,17 @@ export class Scene1 extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16,
     });
-    
-    this.load.bitmapFont("pixelFont", "../../assets/font/font.png", "../../assets/font/font.xml")
+
+    this.load.bitmapFont(
+      "pixelFont",
+      "../../assets/font/font.png",
+      "../../assets/font/font.xml"
+    );
+
+    this.load.audio("beamAudio", "../../assets/audio/beam.mp3");
+    this.load.audio("explosionAudio", "../../assets/audio/explosion.mp3");
+    this.load.audio("pickupAudio", "../../assets/audio/pickup.mp3");
+    console.log("audio loaded")
   }
 
   create() {
@@ -110,8 +119,7 @@ export class Scene1 extends Phaser.Scene {
       key: "shoot",
       frames: this.anims.generateFrameNumbers("beam"),
       frameRate: 20,
-      repeat: -1
-    })
-    
+      repeat: -1,
+    });
   }
 }
