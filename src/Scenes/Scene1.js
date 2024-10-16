@@ -34,21 +34,21 @@ export class Scene1 extends Phaser.Scene {
       frameWidth: 48,
       frameHeight: 48
     });
-    this.load.spritesheet("planet5", "../../assets/exp/planet_5.png", {
-      frameWidth: 48,
-      frameHeight: 48
-    });
-    this.load.spritesheet("planet6", "../../assets/exp/planet_6.png", {
-      frameWidth: 48,
-      frameHeight: 48
-    });
+    // this.load.spritesheet("planet5", "../../assets/exp/planet_5.png", {
+    //   frameWidth: 48,
+    //   frameHeight: 48
+    // });
+    // this.load.spritesheet("planet6", "../../assets/exp/planet_6.png", {
+    //   frameWidth: 48,
+    //   frameHeight: 48
+    // });
     
     this.load.spritesheet(
       "explosion",
-      "../../assets/spritesheets/explosion.png",
+      "../../assets/exp/explosion.png",
       {
-        frameWidth: 16,
-        frameHeight: 16,
+        frameWidth: 48,
+        frameHeight: 48,
       }
     );
     this.load.spritesheet(
@@ -60,9 +60,9 @@ export class Scene1 extends Phaser.Scene {
       }
     );
 
-    this.load.spritesheet("player", "../../assets/spritesheets/player.png", {
-      frameWidth: 16,
-      frameHeight: 24,
+    this.load.spritesheet("player", "../../assets/exp/player.png", {
+      frameWidth: 48,
+      frameHeight: 48,
     });
 
     this.load.spritesheet("beam", "../../assets/spritesheets/beam.png", {
@@ -84,7 +84,7 @@ export class Scene1 extends Phaser.Scene {
 
   create() {
     this.add.text(20, 20, "Wait Loading...");
-    this.scene.start("playGame");
+    
 
     this.anims.create({
       key: "ship1_anim",
@@ -146,5 +146,7 @@ export class Scene1 extends Phaser.Scene {
       frameRate: 30,
       repeat: -1,
     });
+
+    this.scene.start("playGame");
   }
 }

@@ -16,7 +16,6 @@ export class Scene2 extends Phaser.Scene {
       config.height,
       "background"
     );
-    // this.background.scaleX = 2
     this.background.setOrigin(0, 0);
     this.ship1 = this.add.sprite(
       config.width / 2 - 50,
@@ -44,31 +43,19 @@ export class Scene2 extends Phaser.Scene {
     this.planet2 = this.add.sprite(
       config.width / 2 + 50,
       config.width / 2,
-      "planet1"
+      "planet2"
     );
 
     this.planet3 = this.add.sprite(
       config.width / 2 + 50,
       config.width / 2,
-      "planet1"
+      "planet3"
     );
 
     this.planet4 = this.add.sprite(
       config.width / 2 + 50,
       config.width / 2,
-      "planet1"
-    );
-
-    this.planet5 = this.add.sprite(
-      config.width / 2 + 50,
-      config.width / 2,
-      "planet1"
-    );
-
-    this.planet6 = this.add.sprite(
-      config.width / 2 + 50,
-      config.width / 2,
-      "planet6"
+      "planet4"
     );
 
     this.beamSound = this.sound.add("beamAudio");
@@ -85,10 +72,9 @@ export class Scene2 extends Phaser.Scene {
     this.enemies.add(this.planet3);
     this.enemies.add(this.planet4);
     
-
     this.score = 0;
     this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:", 20);
-    this.scoreLabel.text = "SCORE:" + String(this.score);
+    
 
     this.powerUps = this.physics.add.group();
     let maxObjects = 4;
@@ -114,16 +100,10 @@ export class Scene2 extends Phaser.Scene {
       "player"
     );
     this.player.setCollideWorldBounds(true);
-    this.player.scale = 2;
-
     this.player.play("thrust");
     this.ship1.play("ship1_anim");
     this.ship2.play("ship2_anim");
     this.ship3.play("ship3_anim");
-
-    this.ship1.setInteractive();
-    this.ship2.setInteractive();
-    this.ship3.setInteractive();
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.spacebar = this.input.keyboard.addKey(
@@ -167,6 +147,9 @@ export class Scene2 extends Phaser.Scene {
     this.moveEnemy(this.ship2, Math.random() * 5);
     this.moveEnemy(this.ship3, Math.random() * 5);
     this.moveEnemy(this.planet1, Math.random() * 5);
+    this.moveEnemy(this.planet2, Math.random() * 5);
+    this.moveEnemy(this.planet3, Math.random() * 5);
+    this.moveEnemy(this.planet4, Math.random() * 5);
 
     this.background.tilePositionY -= 1;
     this.movePlayer();
@@ -181,6 +164,8 @@ export class Scene2 extends Phaser.Scene {
       let beam = this.projectiles.getChildren()[i];
       beam.update();
     }
+
+    this.setScore(this.score);
   }
 
   movePlayer() {
@@ -205,17 +190,18 @@ export class Scene2 extends Phaser.Scene {
     }
   }
 
-  moveEnemy(ship, speed) {
-    ship.y += speed;
-    if (ship.y > config.height) {
-      ship.y = 0;
-      this.resetShipPosi(ship);
+  moveEnemy(enemy, speed) {
+    enemy.y += speed;
+    if (enemy.y > config.height) {
+      enemy.y = 0;
+      this.score -= 10;
+      this.resetEnemyPosi(enemy);
     }
   }
 
-  resetShipPosi(ship) {
-    ship.x = Phaser.Math.Between(0, config.width);
-    ship.y = -100;
+  resetEnemyPosi(enemy) {
+    enemy.x = Phaser.Math.Between(0, config.width);
+    enemy.y = -100;
   }
 
   shootBeam() {
@@ -227,11 +213,16 @@ export class Scene2 extends Phaser.Scene {
     powerUp.disableBody(true, true);
   }
 
-  hurtPlayer(player, ship) {
-    this.resetShipPosi(ship);
+  hurtPlayer(player, enemy) {
+    this.resetEnemyPosi(enemy);
 
     if (player.alpha < 1) {
       return;
+    }
+    if(this.score>100){
+      this.score -=100;
+    }else{
+      this.score = 0;
     }
 
     let explosion = new Explosion(this, player.x, player.y);
@@ -243,13 +234,12 @@ export class Scene2 extends Phaser.Scene {
       loop: false,
     });
   }
-  killEnemy(projectile, ship) {
+  killEnemy(projectile, enemy) {
     projectile.destroy();
-    let explosion = new Explosion(this, ship.x, ship.y);
+    let explosion = new Explosion(this, enemy.x, enemy.y);
     this.explosionSound.play();
-    this.resetShipPosi(ship);
+    this.resetEnemyPosi(enemy);
     this.score += 10;
-    this.scoreLabel.text = "SCORE:" + String(this.score);
   }
 
   resetPlayer() {
@@ -274,4 +264,9 @@ export class Scene2 extends Phaser.Scene {
       callbackScope: this,
     });
   }
+
+  setScore(score){
+    this.scoreLabel.text = "SCORE:" + String(score);
+  }
+
 }
